@@ -4,6 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders                          #Enviar archivo adjunto
 import os
+from datetime import datetime, timedelta
 
 def enviar_correo(remitente, password, destinatarios, asunto, cuerpo, archivo_adjunto=None):
     
@@ -48,6 +49,9 @@ cuerpo = "Hola, pruebas de enviar correo por Python con una imagen adjunta."
 
 # AGREGAR ARCHIVO ADJUNTO LOCAL (opcional)
 archivo_adjunto = "C:/Users/panfu/Music/Proyectos/Imagenes de Pruebas/1.jpg"  #RUTA DE ARCHIVO LOCAL
+
+#PROGRAMAR EL ENVIO
+tiempo_programado = datetime.now() + timedelta(minutes=10)
 
 # ENVIAR CORREO
 enviar_correo(remitente, password, destinatarios, asunto, cuerpo, archivo_adjunto)
