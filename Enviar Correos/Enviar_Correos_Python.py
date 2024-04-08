@@ -6,17 +6,20 @@ from email import encoders
 import os
 from datetime import time, datetime, timedelta
 
+
+
 def enviar_correo(remitente, password, destinatarios, asunto, cuerpo, archivo_adjunto=None, hora_programada=None):
-    # Crear el mensaje
+    
+    #CREAR EL MENSAJE
     mensaje = MIMEMultipart()
     mensaje['From'] = remitente
     mensaje['To'] = ", ".join(destinatarios)
     mensaje['Subject'] = asunto
 
-    # Adjuntar cuerpo del mensaje
+    # ARCHIVO DEL CUERPO DEL MENSAJE
     mensaje.attach(MIMEText(cuerpo, 'plain'))
 
-    # Adjuntar archivo adjunto si se proporciona
+    # ARCHIVO ADJUNTO
     if archivo_adjunto:
         nombre_archivo = os.path.basename(archivo_adjunto)
         parte = MIMEBase('application', "octet-stream")
@@ -26,16 +29,17 @@ def enviar_correo(remitente, password, destinatarios, asunto, cuerpo, archivo_ad
         parte.add_header('Content-Disposition', f'attachment; filename={nombre_archivo}')
         mensaje.attach(parte)
         
-    # Si se proporciona la hora programada, calcular el tiempo de espera
+    #PROGRAMACION DE LA HORA
     if hora_programada:
-        # Calcular la diferencia de tiempo entre ahora y la hora programada
+        #CALCULAR EL TIEMPO DE HORA PROGRAMADA Y LA ACTUAL
         hora_programada_datetime = datetime.combine(datetime.now().date(), hora_programada)
         if hora_programada_datetime < datetime.now():
-            # Si la hora programada ya ha pasado para hoy, programar para mañana
+            
+            #SI LA HORA PROGRAMADA YA PASO, SE ENVIARA AL OTRO DIA
             hora_programada_datetime += timedelta(days=1)
         tiempo_espera = hora_programada_datetime - datetime.now()
 
-        # Esperar hasta la hora programada para enviar el correo
+        #ESPERA DE LA HORA PARA ENVIAR CORREO
         if tiempo_espera.total_seconds() > 0:
             print(f"Esperando {tiempo_espera} para enviar el correo...")
             import time
@@ -46,11 +50,11 @@ def enviar_correo(remitente, password, destinatarios, asunto, cuerpo, archivo_ad
     server.starttls()
     server.login(remitente, password)
     
-    # Enviar correo a cada destinatario
+    #SOLO TIPO DE TEXTO STRING
     texto = mensaje.as_string()
     server.sendmail(remitente, destinatarios, texto)
 
-    # Salir de la sesión SMTP
+    # SALIR DE SMTP
     server.quit()
 
 # DEFINIR CREDENCIALES (Generar contraseña de aplicaciones)
