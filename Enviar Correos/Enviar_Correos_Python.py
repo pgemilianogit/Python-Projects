@@ -63,7 +63,7 @@ password = "dsbw ewac iwmw nojt"
 
 # DETALLES DE DESTINATARIOS
 destinatarios = ["panfu.100@hotmail.com", "pgemiliano@hotmail.com"]  # USUARIOS
-asunto = "Prueba de correo"
+asunto = "Prueba de correos"
 cuerpo = "Hola, pruebas de enviar correo por Python con una imagen adjunta."
 
 # AGREGAR ARCHIVO ADJUNTO LOCAL (opcional)
